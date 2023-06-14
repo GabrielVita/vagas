@@ -1,13 +1,22 @@
-var data =  require("./fakeData");
+const data = require("./fakeData");
+const checkPermissions = require("./permissions");
 
-module.exports =  function(req, res) {
-  
-    var id =  req.query.id;
+const checkUpdatePermission = checkPermissions(["update"]);
 
-    const reg = data.find(d => id == id);
-    reg.name = req.body.name;
-    reg.job = req.body.job;
+module.exports = function(req, res) {
+  const id = req.query.id;
+  const { name, job } = req.body;
 
-    res.send(reg);
+  const userIndex = data.findIndex(user => user.id === id);
 
+  if (userIndex !== -1) {
+    checkUpdatePermission(req, res, () => {
+      const user = data[userIndex];
+      user.name = name;
+      user.job = job;
+      res.send(user);
+    });
+  } else {
+    res.status(404).send('Usuário não encontrado');
+  }
 };

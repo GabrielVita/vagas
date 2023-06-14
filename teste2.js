@@ -1,17 +1,17 @@
-var data =  require("./fakeData");
+//Erro de escrita na linha 7
 
-module.exports = function(req, res){
-  
-    var name =  req.body.name;
-    var jov =  req.body.job;
-    
+var data = require("./fakeData");
+
+module.exports = function (req, res) {
+    var name = req.body.name;
+    var job = req.body.job;
+
     var newUser = {
         name: name,
         job: job,
-    }
+    };
 
-    data.push(newUser)
-    
+    data.push(newUser);
+
     res.send(newUser);
-
 };
